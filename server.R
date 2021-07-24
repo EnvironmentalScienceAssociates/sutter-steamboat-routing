@@ -1,46 +1,68 @@
 
 function(input, output) {
     
+    S_sutter <- reactive({
+        input$S_sut * input$S_steam2 * input$S_sac4
+    })
+    
     # N at Chipps Island via Sutter route
     N_chipps_sut <- reactive({
-        N * P_sut * input$S_sut * input$S_steam2 * input$S_sac4
+        N_court * P_sut * S_sutter()
+    })
+    
+    S_steam <- reactive({
+        input$S_sac1 * input$S_steam1 * input$S_steam2 * input$S_sac4
     })
     
     N_chipps_steam <- reactive({
-        N * (1 - P_sut) * input$S_sac1 * P_steam * input$S_steam1 * input$S_steam2 * input$S_sac4
+        N_court * (1 - P_sut) * P_steam * S_steam()
+    })
+    
+    S_sac <- reactive({
+        input$S_sac1 * input$S_sac2 * input$S_sac3 * input$S_sac4
     })
     
     N_chipps_sac <- reactive({
-        N * (1 - P_sut) * input$S_sac1 * (1 - P_steam) * input$S_sac2 * (1 - input$P_geo) * input$S_sac3 * input$S_sac4
+        N_court * (1 - P_sut) * (1 - P_steam) * (1 - input$P_geo) * S_sac()
+    })
+    
+    S_geo <- reactive({
+        input$S_sac1 * input$S_sac2 * input$S_geo
     })
     
     N_chipps_geo <- reactive({
-        N * (1 - P_sut) * input$S_sac1 * (1 - P_steam) * input$S_sac2 * input$P_geo * input$S_geo
+        N_court * (1 - P_sut) * (1 - P_steam) * input$P_geo * S_geo()
     })
     
     chipps_prop <- reactive({
         tibble(P_sut = P_sut,
                P_steam = P_steam,
                N_chipps = N_chipps_sut() + N_chipps_steam() + N_chipps_sac() + N_chipps_geo(),
-               Prop_chipps = N_chipps/N) 
+               Prop_chipps = round(N_chipps/N_court, 2)) 
     })
     
-    output$pchipps <- renderPlot({
+    output$chippsSurvival <- renderPlotly({
         cp = chipps_prop()
-        cp_max = filter(cp, Prop_chipps == max(Prop_chipps))
-        ggplot(chipps_prop(), aes(x = P_sut, y = P_steam)) +
-            geom_tile(aes(fill = Prop_chipps)) +
-            geom_point(data = cp_max, shape = 18, size = 4) +
-            scale_fill_viridis_c(name = "Proportion\nsurviving to\nChipps Island") +
-            labs(x = "Proportion entrained in Sutter Slough",
-                 y = "Proportion entrained in Steamboat Slough") +
-            theme_minimal() + 
-            theme(
-                legend.text = element_text(size = 12),
-                legend.title = element_text(size = 14),
-                axis.title = element_text(size = 14),
-                axis.text = element_text(size = 12)
-            )
+        plot_ly(x = cp$P_sut, y = cp$P_steam, z = cp$Prop_chipps, type = "heatmap") |> 
+            layout(title="Overall Survival to Chipps Island",
+                   xaxis = list(title = "Sutter Slough Entrainment"),
+                   yaxis = list(title = "Steamboat Slough Entrainment"))
+    })
+    
+    output$sutterSurvival <- renderText({
+        glue::glue("Sutter: {round(S_sutter(), 2)}")
+    })
+    
+    output$steamSurvival <- renderText({
+        glue::glue("Steamboat: {round(S_steam(), 2)}")
+    })
+    
+    output$sacSurvival <- renderText({
+        glue::glue("Sacramento: {round(S_sac(), 2)}")
+    })
+    
+    output$geoSurvival <- renderText({
+        glue::glue("Georgiana/Interior Delta: {round(S_geo(), 2)}")
     })
 }
 

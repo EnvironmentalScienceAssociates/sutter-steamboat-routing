@@ -29,12 +29,14 @@ navbarPage("Sutter-Steamboat Routing",
                                                      max = slider_max, value = 0.4, step = slider_step))
                       ),
                       
-                      # Show a plot of the generated distribution
                       mainPanel(
-                        plotOutput("pchipps"),
+                        plotlyOutput("chippsSurvival"),
                         br(),
-                        helpText("Diamond symbol indicates maximum survival to Chipps Island given survival 
-                                     and routing settings in the sidebar panel.")
+                        h4("Route-Specific Survival"),
+                        textOutput("sutterSurvival"),
+                        textOutput("steamSurvival"),
+                        textOutput("sacSurvival"),
+                        textOutput("geoSurvival")
                       )
                     )
            ),
@@ -44,20 +46,32 @@ navbarPage("Sutter-Steamboat Routing",
                       column(width = 3, offset = 1,
                              img(src = "SutterSteamboatDiagram.png", width = 250, height = 495)
                       ),
-                      column(8,
+                      column(width = 8,
                              helpText('Sutter Route
-                             $$N_{Sutter} = N * P_{Sutter} * S_{Sutter} * S_{Steam2} * S_{Sac4}$$'),
+                             $$N_{Sutter} = N_{Court} * P_{Sutter} * S_{Sutter} * S_{Steam2} * S_{Sac4}$$'),
+                             hr(),
                              helpText('Steamboat Route
-                             $$N_{Steam} = N * (1 - P_{Sutter}) * S_{Sac1} * P_{Steam} * 
+                             $$N_{Steam} = N_{Court} * (1 - P_{Sutter}) * S_{Sac1} * P_{Steam} * 
                              S_{Steam1} * S_{Steam2} * S_{Sac4}$$'),
+                             hr(),
                              helpText('Sacramento Route
-                             $$N_{Sac} = N * (1 - P_{Sutter}) * S_{Sac1} * (1 - P_{Steam}) * 
+                             $$N_{Sac} = N_{Court} * (1 - P_{Sutter}) * S_{Sac1} * (1 - P_{Steam}) * 
                              S_{Sac2} * (1 - P_{Geo}) * S_{Sac3} * S_{Sac4}$$'),
+                             hr(),
                              helpText('Georgiana/Interior Delta Route
-                             $$N_{Geo/ID} = N * (1 - P_{Sutter}) * S_{Sac1} * (1 - P_{Steam}) * 
+                             $$N_{Geo/ID} = N_{Court} * (1 - P_{Sutter}) * S_{Sac1} * (1 - P_{Steam}) * 
                              S_{Sac2} * P_{Geo} * S_{Geo/ID}$$'),
-                             helpText('Proportion Surviving to Chipps Island
-                             $$(N_{Sutter} + N_{Steam} + N_{Sac} + N_{Geo/ID}) / N$$')
+                             hr(),
+                             helpText('Overall Survival to Chipps Island
+                             $$(N_{Sutter} + N_{Steam} + N_{Sac} + N_{Geo/ID}) / N_{Court}$$'),
+                             hr(),
+                             br(),
+                             helpText('$N_{Court}$ is the number of fish passing Courtland'),
+                             helpText('$N_{X}$ is the number of fish arriving at Chipps Island via the 
+                                      route specified in the subscript'),
+                             helpText('$P_{X}$ is the probability of entrainment into the 
+                                      distributary specified in the subscript'),
+                             helpText('$S_{X}$ is the survival through the reach specified in the subscript')
                       )
                     )
            )

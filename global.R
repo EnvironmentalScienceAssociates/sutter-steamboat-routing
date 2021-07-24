@@ -1,8 +1,8 @@
 library(shiny)
-library(ggplot2)
 library(dplyr)
+library(plotly)
 
-N = 1e6
+N_court = 1e6
 # pss = prob sutter steamboat
 pss = expand.grid(P_sut = seq(0.01, 0.99, 0.01),
                   P_steam = seq(0.01, 0.99, 0.01))
