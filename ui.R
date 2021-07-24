@@ -42,6 +42,10 @@ navbarPage("Sutter-Steamboat Routing",
            ),
            tabPanel("About",
                     withMathJax(),
+                    # section below allows in-line LaTeX via $ in mathjax.
+                    tags$div(HTML("<script type='text/x-mathjax-config' >
+                    MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+                    </script >")),
                     fluidRow(
                       column(width = 3, offset = 1,
                              img(src = "SutterSteamboatDiagram.png", width = 250, height = 495)
