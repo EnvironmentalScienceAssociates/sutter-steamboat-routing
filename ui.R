@@ -34,14 +34,13 @@ page_sidebar(
       )
     )
   ),
-  accordion(
-    open = c("Plot"),
-    accordion_panel(
-      "Plot",
+  navset_card_pill(
+    nav_panel(
+      title = "Plot",
       layout_columns(
         card(plotlyOutput("chippsSurvival")),
         card(
-          h5("Route-Specific Survival"),
+          card_header("Route-Specific Survival"),
           textOutput("sutterSurvival"),
           textOutput("steamSurvival"),
           textOutput("sacSurvival"),
@@ -50,13 +49,13 @@ page_sidebar(
         col_widths = c(9, 3)
       )
     ),
-    accordion_panel(
-      "About",
+    nav_panel(
+      title = "About",
       withMathJax(),
       # section below allows in-line LaTeX via $ in mathjax.
-      tags$div(HTML("<script type='text/x-mathjax-config' >
+      HTML("<script type='text/x-mathjax-config' >
                     MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
-                    </script >")),
+                    </script >"),
       layout_columns(
         card(
           helpText('Sutter Route
