@@ -43,7 +43,8 @@ function(input, output) {
     
     output$chippsSurvival <- renderPlotly({
         cp = chipps_prop()
-        plot_ly(x = cp$P_sut, y = cp$P_steam, z = cp$Prop_chipps, type = "heatmap") |> 
+        plot_ly(x = cp$P_sut, y = cp$P_steam, z = cp$Prop_chipps, type = "heatmap",
+                colors = colorRamp(c("#F9A134", "white", "#1193BA"))) |> 
             layout(title="Overall Survival to Chipps Island",
                    xaxis = list(title = "Sutter Slough Entrainment"),
                    yaxis = list(title = "Steamboat Slough Entrainment"))
@@ -66,3 +67,26 @@ function(input, output) {
     })
 }
 
+# orange: "#F9A134"
+# gray: "#ADAFB2"
+# # primary colors
+# blue1: "#1193BA"
+# blue2: "#66CAD8"
+# green1: "#8FCEA5"
+# green2: "#00A79D"
+# # secondary colors
+# blue3: "#50ACC8"
+# blue4: "#007AA6"
+# blue5: "#115C81"
+# blue6: "#004562"
+# green3: "#55B99A"
+# green4: "#00918B"
+# green5: "#007578"
+# green6: "#005862"
+# pink1: "#E56593"
+# pink2: "#DA1B60"
+# pink3: "#9F1E49"
+# pink4: "#691738"
+# red: "#F15B67"
+# orange2: "#F58357"
+# yellow: "#FFE17F"

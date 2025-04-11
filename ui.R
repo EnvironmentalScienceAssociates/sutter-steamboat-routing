@@ -3,6 +3,7 @@ page_sidebar(
   title = "Sutter-Steamboat Routing Calculator",
   window_title = "Sutter-Steamboat Routing",
   sidebar = sidebar(
+    width = 320,
     accordion(
       open = c("Sutter-Steamboat"),
       accordion_panel(
@@ -32,9 +33,11 @@ page_sidebar(
         sliderInput("P_geo", "Georgiana Entrainment", min = slider_min, 
                     max = slider_max, value = 0.35, step = slider_step)
       )
-    )
+    ),
+    a(img(src="ESA-small.png", alt="ESA logo", width = "200"), href = "https://esassoc.com/"),
+    helpText("For issues with this app, contact Travis Hinkelman at thinkelman@esassoc.com.")
   ),
-  navset_card_pill(
+  navset_card_underline(
     nav_panel(
       title = "Plot",
       layout_columns(
@@ -57,29 +60,31 @@ page_sidebar(
                     MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
                     </script >"),
       layout_columns(
+        col_widths = c(9, 3),
         card(
-          helpText('Sutter Route
+          p('Sutter Route
                              $$N_{Sutter} = N_{Court} * P_{Sutter} * S_{Sutter} * S_{Steam2} * S_{Sac4}$$'),
-          helpText('Steamboat Route
-                             $$N_{Steam} = N_{Court} * (1 - P_{Sutter}) * S_{Sac1} * P_{Steam} * 
+          p('Steamboat Route
+                             $$N_{Steam} = N_{Court} * (1 - P_{Sutter}) * S_{Sac1} * P_{Steam} *
                              S_{Steam1} * S_{Steam2} * S_{Sac4}$$'),
-          helpText('Sacramento Route
-                             $$N_{Sac} = N_{Court} * (1 - P_{Sutter}) * S_{Sac1} * (1 - P_{Steam}) * 
+          p('Sacramento Route
+                             $$N_{Sac} = N_{Court} * (1 - P_{Sutter}) * S_{Sac1} * (1 - P_{Steam}) *
                              S_{Sac2} * (1 - P_{Geo}) * S_{Sac3} * S_{Sac4}$$'),
-          helpText('Georgiana/Interior Delta Route
-                             $$N_{Geo/ID} = N_{Court} * (1 - P_{Sutter}) * S_{Sac1} * (1 - P_{Steam}) * 
+          p('Georgiana/Interior Delta Route
+                             $$N_{Geo/ID} = N_{Court} * (1 - P_{Sutter}) * S_{Sac1} * (1 - P_{Steam}) *
                              S_{Sac2} * P_{Geo} * S_{Geo/ID}$$'),
-          helpText('Overall Survival to Chipps Island
+          p('Overall Survival to Chipps Island
                              $$(N_{Sutter} + N_{Steam} + N_{Sac} + N_{Geo/ID}) / N_{Court}$$'),
-          helpText('$N_{Court}$ is the number of fish passing Courtland'),
-          helpText('$N_{X}$ is the number of fish arriving at Chipps Island via the 
+          p('$N_{Court}$ is the number of fish passing Courtland'),
+          p('$N_{X}$ is the number of fish arriving at Chipps Island via the
                                       route specified in the subscript'),
-          helpText('$P_{X}$ is the probability of entrainment into the 
+          p('$P_{X}$ is the probability of entrainment into the
                                       distributary specified in the subscript'),
-          helpText('$S_{X}$ is the survival through the reach specified in the subscript')
+          p('$S_{X}$ is the survival through the reach specified in the subscript')
         ),
-        card(img(src = "SutterSteamboatDiagram.png", width = 250, height = 495)),
-        col_widths = c(9, 3)
+        card(
+          img(src = "SutterSteamboatDiagram.png", width = 250, height = 495)
+        )
       )
     )
   )
