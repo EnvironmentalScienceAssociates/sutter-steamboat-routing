@@ -3,7 +3,7 @@ page_sidebar(
   title = "Sutter-Steamboat Routing Calculator",
   window_title = "Sutter-Steamboat Routing",
   sidebar = sidebar(
-    width = 320,
+    width = 330,
     accordion(
       open = c("Sutter-Steamboat"),
       accordion_panel(
